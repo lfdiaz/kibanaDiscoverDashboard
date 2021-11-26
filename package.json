@@ -1,0 +1,20 @@
+{
+  "name": "Pathwire",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Luis Diaz",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^6.4.0"
+  },
+  "scripts": {
+    "start-client": "yarn --cwd ./client start:dev",
+    "start-server": "yarn --cwd ./server start:dev",
+    "start": "concurrently -k \"yarn:start-*\""
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "private": true
+}
