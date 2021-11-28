@@ -26,7 +26,7 @@ const Dashboard: FC = () => {
       <Box>
         <DatePicker />
       </Box>
-      <Box>
+      <Box sx={{ minHeight: "300px" }}>
         <Graph />
       </Box>
       <Box>

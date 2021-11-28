@@ -1,8 +1,6 @@
 import express, { Request, Response } from "express";
-import axios from "axios";
 import { client } from "../elasticclient";
 const router = express.Router();
-import config from "../configs";
 
 router.route("/elastic/search").get(async (req: Request, res: Response) => {
   const { start = 0, fromDate, toDate } = req.query;
@@ -24,7 +22,7 @@ router.route("/elastic/search").get(async (req: Request, res: Response) => {
       },
     });
 
-    res.json(response);
+    res.json(response.body);
   } catch (e) {
     res.status(400).json((e as Error).message);
   }

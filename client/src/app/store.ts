@@ -1,11 +1,9 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import counterReducer from "../features/counter/counterSlice";
 import elasticReducer from "../features/Dashboard/elasticSlice";
 
 export const store = configureStore({
   reducer: {
     elastic: elasticReducer,
-    counter: counterReducer,
   },
 });
 

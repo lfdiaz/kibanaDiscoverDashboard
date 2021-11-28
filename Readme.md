@@ -1,5 +1,15 @@
 ## Kibana Discover Dashboard Replica
 
+## Start
+
+To start the application run
+
+```
+docker-compose up -d
+```
+
+The application will open on http://localhost:8080
+
 ### Objective
 
 Try to replicate the Kibana Discover Dashboard

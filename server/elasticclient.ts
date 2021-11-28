@@ -1,5 +1,7 @@
-import elasticSearch from "elasticsearch";
+import { Client } from "@elastic/elasticsearch";
 
-export const client = new elasticSearch.Client({
-  host: "localhost:9200",
+const ELASTIC_HOST = process.env.ELASTIC_HOST || "http://localhost:9200";
+
+export const client = new Client({
+  node: ELASTIC_HOST,
 });

@@ -9,7 +9,7 @@ services:
       - xpack.security.enabled=false
       - discovery.type=single-node
     networks:
-      - es-net
+      - elastic
     ulimits:
       memlock:
         soft: -1
@@ -24,6 +24,8 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
+    expose:
+      - 9200
 
   kibana:
     container_name: kibana
@@ -31,27 +33,29 @@ services:
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     networks:
-      - es-net
+      - elastic
     ports:
       - 5601:5601
     depends_on:
       - elasticsearch
 
-  # node:
-  #   container_name: node-app
-  #   build: .
-  #   volumes:
-  #     - .:/app
-  #   depends_on:
-  #     - kibana
-  #   ports:
-  #     - 3000:3000
-  #     - 8080:8080
+  web:
+    build: .
+    environment:
+      - ELASTIC_HOST=http://elasticsearch:9200
+    volumes:
+      - .:/app
+    depends_on:
+      - elasticsearch
+    ports:
+      - 8080:8080
+    networks:
+      - elastic
 
 volumes:
   elasticsearch-data:
     driver: local
 
 networks:
-  es-net:
+  elastic:
     driver: bridge

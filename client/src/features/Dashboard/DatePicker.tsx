@@ -28,6 +28,15 @@ const DatePicker: FC = () => {
   const [from, setFrom] = React.useState<moment.Moment | null>();
   const [to, setTo] = React.useState<moment.Moment | null>();
 
+  React.useEffect(() => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    const fromDate = newSearchParams.get("fromDate");
+    const toDate = newSearchParams.get("toDate");
+
+    if (fromDate) setFrom(moment(fromDate));
+    if (toDate) setTo(moment(toDate));
+  }, [searchParams]);
+
   const handleClick = React.useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       setElement(event.currentTarget);
