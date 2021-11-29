@@ -71,6 +71,7 @@ const DatePicker: FC = () => {
   }, [dispatch, from, to, setSearchParams, searchParams]);
 
   const open = Boolean(element);
+
   const id = open ? "simple-popover" : undefined;
 
   return (
@@ -83,6 +84,7 @@ const DatePicker: FC = () => {
         }}
       >
         <Input
+          data-testid="input-date-picker-dashboard"
           onClick={handleClick}
           startAdornment={
             <InputAdornment position="start">
@@ -117,13 +119,20 @@ const DatePicker: FC = () => {
               label="From"
               value={from}
               onChange={setFrom}
-              renderInput={(props) => <TextField {...props} />}
+              renderInput={(props) => (
+                <TextField
+                  data-testid="date-time-picker-from-graph"
+                  {...props}
+                />
+              )}
             />
             <DateTimePicker
               label="To"
               value={to}
               onChange={setTo}
-              renderInput={(props) => <TextField {...props} />}
+              renderInput={(props) => (
+                <TextField data-testid="date-time-picker-to-graph" {...props} />
+              )}
             />
           </LocalizationProvider>
           <Box gridColumn="2">

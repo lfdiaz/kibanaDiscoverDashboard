@@ -18,7 +18,7 @@ import { getSelectedHeaders, getElasticData } from "./elasticSlice";
 
 /*
 
-TODO: Add Virtualize Table
+TODO: Add Pagination, Sorting and Filtering
 
 */
 const DetailsTable: FC = () => {
@@ -37,9 +37,13 @@ const DetailsTable: FC = () => {
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody data-testid="dashboard-table-body">
           {data.map((row, i) => (
-            <Row row={row} selectedHeaders={selectedHeaders} key={i} />
+            <Row
+              row={row}
+              selectedHeaders={selectedHeaders}
+              key={row["_source.timestamp"]}
+            />
           ))}
         </TableBody>
       </Table>
@@ -76,8 +80,12 @@ const Row: FC<{ row: RowType; selectedHeaders: Array<string> }> = ({
         <TableCell colSpan={6}>
           <Collapse unmountOnExit timeout="auto" in={open}>
             <Box display="flex" flexDirection="column">
-              {Object.keys(row).map((k) => (
-                <Box display="grid" gridTemplateColumns="1fr 1fr">
+              {Object.keys(row).map((k, i) => (
+                <Box
+                  display="grid"
+                  gridTemplateColumns="1fr 1fr"
+                  key={`${i}-${k}`}
+                >
                   <Typography textAlign="center" variant="subtitle1">
                     {k}
                   </Typography>

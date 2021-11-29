@@ -1,1 +1,1 @@
-export * from "./Graph";
+export { default as Dashboard } from "./Dashboard";

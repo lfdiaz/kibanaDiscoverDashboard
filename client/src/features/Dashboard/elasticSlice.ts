@@ -72,7 +72,6 @@ export const elasticSlice = createSlice({
             Since we want all the data in a big object instead of nested object
             so its easier to read for the table we need to convert it before saving it 
           */
-
           state.elasticData = action.payload.data.map((d) =>
             convertNestedObj(d, "")
           );
