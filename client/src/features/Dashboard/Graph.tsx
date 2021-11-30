@@ -1,3 +1,4 @@
+import { Typography, Box } from "@mui/material";
 import { FC } from "react";
 import {
   BarChart,
@@ -10,7 +11,13 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useAppSelector } from "../../app/hooks";
-import { countsByHourDate } from "./elasticSlice";
+import {
+  countsByHourDate,
+  getDataCount,
+  getMinDate,
+  getMaxDate,
+} from "./elasticSlice";
+import moment from "moment";
 
 export type ChartData = {
   date: Date | string;
@@ -18,10 +25,25 @@ export type ChartData = {
 };
 
 const Graph: FC = () => {
+  const maxDate = useAppSelector(getMaxDate);
+  const minDate = useAppSelector(getMinDate);
   const data = useAppSelector(countsByHourDate);
+  const count = useAppSelector(getDataCount);
 
   return (
     <div data-testid="dashboard-bar-chart">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="column"
+      >
+        <Typography variant="h5">{count.toLocaleString()} hits</Typography>
+        <Typography variant="h6">
+          {moment(minDate).format("LL @ HH:mm:SSS")} -{" "}
+          {moment(maxDate).format("LL @ HH:mm:SSS")}{" "}
+        </Typography>
+      </Box>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart
           data={data}
@@ -34,7 +56,9 @@ const Graph: FC = () => {
               offset={-14}
             />
           </XAxis>
-          <YAxis />
+          <YAxis
+            label={{ value: "Count", angle: -90, position: "insideLeft" }}
+          />
           <Tooltip />
           <Bar dataKey="count" fill="#82ca9d" />
         </BarChart>

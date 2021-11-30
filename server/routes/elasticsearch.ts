@@ -19,6 +19,19 @@ router.route("/elastic/search").get(async (req: Request, res: Response) => {
             },
           },
         },
+        aggs: {
+          max_date: {
+            max: {
+              field: "timestamp",
+              format: "yyyy-MM-dd",
+            },
+          },
+          min_date: {
+            min: {
+              field: "timestamp",
+            },
+          },
+        },
       },
     });
 

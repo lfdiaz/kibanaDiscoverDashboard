@@ -22,7 +22,7 @@ const Dashboard: FC = () => {
   }, [dispatch, searchParams]);
 
   return (
-    <Box>
+    <Box sx={{ padding: "22px" }}>
       <Box>
         <DatePicker />
       </Box>

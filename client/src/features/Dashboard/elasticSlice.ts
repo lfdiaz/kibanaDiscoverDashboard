@@ -16,6 +16,8 @@ export interface ElasticState {
   error: SerializedError | null;
   count: number;
   selectedHeaders: Array<string>;
+  minDate: Date | string | null;
+  maxDate: Date | string | null;
 }
 
 const initialState: ElasticState = {
@@ -23,6 +25,8 @@ const initialState: ElasticState = {
   loading: false,
   error: null,
   count: 0,
+  minDate: null,
+  maxDate: null,
   selectedHeaders: [
     "_source.clientip",
     "_source.geo.src",
@@ -44,6 +48,8 @@ export const getElasticInitialData = createAsyncThunk(
     return {
       data: response.data.hits.hits,
       count: response.data.hits.total.value,
+      maxDate: new Date(response.data.aggregations.max_date.value),
+      minDate: new Date(response.data.aggregations.min_date.value),
     };
   }
 );
@@ -65,9 +71,13 @@ export const elasticSlice = createSlice({
           action: PayloadAction<{
             count: number;
             data: Array<{ [k: string]: any }>;
+            maxDate: Date;
+            minDate: Date;
           }>
         ) => {
           state.count = action.payload.count;
+          state.maxDate = action.payload.maxDate;
+          state.minDate = action.payload.minDate;
           /*
             Since we want all the data in a big object instead of nested object
             so its easier to read for the table we need to convert it before saving it 
@@ -116,6 +126,11 @@ export const countsByHourDate = (state: RootState) => {
   }));
   return countByDateArray;
 };
+
+export const getDataCount = (state: RootState) => state.elastic.count;
+
+export const getMaxDate = (state: RootState) => state.elastic.maxDate;
+export const getMinDate = (state: RootState) => state.elastic.minDate;
 
 export const getSelectedHeaders = (state: RootState) =>
   state.elastic.selectedHeaders;
